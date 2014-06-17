@@ -6,6 +6,10 @@
 Welcome to Handystats' documentation!
 ======================================
 
+.. caution::
+    Handystats library is in **"beta" phase**.
+    Everything may be changed!
+
 Contents:
 
 .. toctree::
