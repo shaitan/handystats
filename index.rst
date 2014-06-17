@@ -13,6 +13,7 @@ Contents:
 
    about
    incremental-statistics
+   configuration
 
 
 
