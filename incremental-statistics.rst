@@ -1,3 +1,5 @@
+.. _incremental-statistics:
+
 Incremental Statistics
 ======================
 
