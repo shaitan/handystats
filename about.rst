@@ -3,11 +3,13 @@
 About
 =====
 
+What Is Handystats?
+---------------------------
+
 Handystats is C++ library for collecting **user-defined in-process runtime statistics** with **low overhead**
 that allows users to monitor their applications in a production environment.
 
-What Does It Mean, Exactly?
----------------------------
+**What Does It Mean, Exactly?**
 
 - By **statistics** we mean a collection of metrics (counters, timers, gauges, etc.) and its cumulative data such as min, max, sum, count, etc.
 - By **runtime** we mean that we're aimed to collect and provide statistics about program's execution in "near real-time".
