@@ -3,7 +3,8 @@
 About
 =====
 
-Handystats is C++ library for collecting **user-defined in-process runtime statistics**.
+Handystats is C++ library for collecting **user-defined in-process runtime statistics** with **low overhead**
+that allows users to monitor their applications in a production environment.
 
 What Does It Mean, Exactly?
 ---------------------------
@@ -12,6 +13,7 @@ What Does It Mean, Exactly?
 - By **runtime** we mean that we're aimed to collect and provide statistics about program's execution in "near real-time".
 - By **in-process** we mean that statistics' collection and aggregation are performed within the program's process (but still in separate thread).
 - By **user-defined** we mean that you must instrument your own code with metrics that should be collected.
+- By **low overhead** we mean that library's influence on application's performance must be minimal.
 
 What Problem We Are Aimed To Solve?
 -----------------------------------
