@@ -7,9 +7,52 @@ Handystats library may suit your needs with its default behaviour, but you might
 
 You can pass your configuration options **before** starting handystats library core (:code:`HANDY_INIT()` call) with the following methods:
 
-- :code:`HANDY_CONFIGURATION_FILE` -- accepts file name with configuration data in JSON format
-- :code:`HANDY_CONFIGURATION_JSON` -- accepts string with configuration data
-- :code:`HANDY_CONFIGURATION_JSON` -- accepts :code:`rapidjson::Value` object with configuration data
+- :code:`HANDY_CONFIGURATION_FILE` -- accepts file name with configuration data in JSON format.
+
+  Example:
+
+  .. code-block:: cpp
+
+    HANDY_CONFIGURATION_FILE("handystats.cfg");
+
+  and :code:`handystats.cfg` file's content:
+
+  .. code::
+
+    {
+        "handystats": {
+            "timer": {
+                "idle-timeout": 100
+            },
+            "message-queue": {
+                "sleep-on-empty": [1, 10, 100, 1000]
+            }
+        }
+    }
+
+- :code:`HANDY_CONFIGURATION_JSON` -- accepts string with configuration data.
+
+  Example:
+
+  .. code-block:: cpp
+
+    HANDY_CONFIGURATION_JSON("\
+            {\
+                "handystats": {\
+                    "incremental-statistics": {\
+                        "moving-interval": 1000\
+                    },\
+                    "timer": {\
+                        "idle-timeout": 1500\
+                    },\
+                    "json-dump": {\
+                        "interval": 1000\
+                    }\
+                }\
+            }\
+        ");
+
+- :code:`HANDY_CONFIGURATION_JSON` -- accepts :code:`rapidjson::Value` object with configuration data.
 
 In all of these methods accepted configuration data must be in JSON format.
 
