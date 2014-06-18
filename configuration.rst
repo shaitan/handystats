@@ -12,6 +12,7 @@ You can pass your configuration options **before** starting handystats library c
 - :code:`HANDY_CONFIGURATION_JSON` -- accepts :code:`rapidjson::Value` object with configuration data
 
 In all of these methods accepted configuration data must be in JSON format.
+
 Here is an example of such JSON with all acceptable configuration options that should be considered as skeleton for your own configuration:
 
 .. code-block:: javascript
