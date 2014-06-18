@@ -40,89 +40,128 @@ Here is an example of such JSON with all acceptable configuration options that s
 Incremental Statistics Configuration
 ------------------------------------
 
-Following options should be specified within :code:`"incremental-statistics"` handystats' configuration JSON entry.
+Following options should be specified within :code:`"incremental-statistics"` handystats' configuration JSON entry. As an example:
+
+.. code-block:: javascript
+
+    {
+        "handystats": {
+            "incremental-statistics": {
+                "moving-average-alpha": 0.25,
+                "moving-interval": 1500
+            }
+        }
+    }
 
 Read :ref:`incremental-statistics` documentation for the backgroud of the following options.
 
 **moving-average-alpha**
-    :Description:
-        Indirectly specifies data window length for moving average statistics.
+    Indirectly specifies data window length for moving average statistics.
 
-        If you want *moving average* statistic to handle approximately last :math:`N` values
-        recommended choices would be :math:`\frac{1}{N}` and :math:`\frac{2}{N + 1}`.
+    If you want *moving average* statistic to handle approximately last :math:`N` values
+    recommended choices would be :math:`\frac{1}{N}` and :math:`\frac{2}{N + 1}`.
 
-    :Default:
-        0.125
+    *Default*: 0.125
 
 **moving-interval**
-    :Description:
-        Specifies moving time widow length over which interval count, sum and mean
-        statistics are calculated.
+    Specifies moving time widow length over which interval count, sum and mean
+    statistics are calculated.
 
-    :Default:
-        1000
+    *Default*: 1000
 
 Timer Metric Configuration
 --------------------------
 
-Following options should be specified within :code:`"timer"` handystats' configuration JSON entry.
+Following options should be specified within :code:`"timer"` handystats' configuration JSON entry. As an example:
+
+.. code-block:: javascript
+
+    {
+        "handystats": {
+            "timer": {
+                "idle-timeout": 5000
+            }
+        }
+    }
 
 Read :ref:`timer-metric` documentation for the backgroud of the following options.
 
 **idle-timeout**
-    :Description:
-        Specifies time interval for which timer's instance is considered to be alive.
+    Specifies time interval for which timer's instance is considered to be alive.
 
-        If no events for timer's instance have been recieved during this time interval
-        timer's instance will be removed with no impact on collected statistics.
+    If no events for timer's instance have been recieved during this time interval
+    timer's instance will be removed with no impact on collected statistics.
 
-    :Default:
-        10000
+    *Default*: 10000
 
 JSON Dump Configuration
 -----------------------
 
-Following options should be specified within :code:`"json-dump"` handystats' configuration JSON entry.
+Following options should be specified within :code:`"json-dump"` handystats' configuration JSON entry. As an example:
+
+.. code-block:: javascript
+
+    {
+        "handystats": {
+            "json-dump": {
+                "interval": 1000
+            }
+        }
+    }
 
 Read :ref:`json-dump` documentation for the backgroud of the following options.
 
 **interval**
-    :Description:
-        Specifies time interval for generating JSON dump of all collected statistics.
+    Specifies time interval for generating JSON dump of all collected statistics.
 
-        Zero value disables JSON dump generation.
+    Zero value disables JSON dump generation.
 
-    :Default:
-        500
+    *Default*: 500
 
 Metrics Dump Configuration
 --------------------------
 
-Following options should be specified within :code:`"metrics-dump"` handystats' configuration JSON entry.
+Following options should be specified within :code:`"metrics-dump"` handystats' configuration JSON entry. As an example:
+
+.. code-block:: javascript
+
+    {
+        "handystats": {
+            "metrics-dump": {
+                "interval": 1000
+            }
+        }
+    }
 
 Read :ref:`metrics-dump` documentation for the backgroud of the following options.
 
 **interval**
-    :Description:
-        Specifies time interval for generating metrics dump of all collected statistics.
+    Specifies time interval for generating metrics dump of all collected statistics.
 
-        Zero value disables metrics dump generation.
+    Zero value disables metrics dump generation.
 
-    :Default:
-        500
+    *Default*: 500
 
 Message Queue Configuration
 ---------------------------
 
-Following options should be specified within :code:`"message-queue"` handystats' configuration JSON entry.
+Following options should be specified within :code:`"message-queue"` handystats' configuration JSON entry. As an example:
+
+.. code-block:: javascript
+
+    {
+        "handystats": {
+            "message-queue": {
+                "sleep-on-empty": [1, 2, 4, 8, 16]
+            }
+        }
+    }
 
 Read :ref:`message-queue` documentation for the backgroud of the following options.
 
 **sleep-on-empty**
-    :Description:
-        Specifies sequence of time interval for which handystats core's processing thread will sleep
-        if no event messages are passed to the handystats core.
+    Specifies sequence of time interval for which handystats core's processing thread will sleep
+    if no event messages are passed to the handystats core.
 
-    :Default:
-        :code:`[1, 5, 10, 50, 100, 500, 1000, 5000, 10000]`
+    *Default*: :code:`[1, 5, 10, 50, 100, 500, 1000, 5000, 10000]`
 
