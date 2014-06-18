@@ -65,7 +65,7 @@ Read :ref:`incremental-statistics` documentation for the backgroud of the follow
     *Default*: 0.125
 
 **moving-interval**
-    Specifies moving time widow length over which interval count, sum and mean
+    Specifies moving time widow length in *milliseconds* over which interval count, sum and mean
     statistics are calculated.
 
     *Default*: 1000
@@ -88,7 +88,7 @@ Following options should be specified within :code:`"timer"` handystats' configu
 Read :ref:`timer-metric` documentation for the backgroud of the following options.
 
 **idle-timeout**
-    Specifies time interval for which timer's instance is considered to be alive.
+    Specifies time interval in *milliseconds* for which timer's instance is considered to be alive.
 
     If no events for timer's instance have been recieved during this time interval
     timer's instance will be removed with no impact on collected statistics.
@@ -113,7 +113,7 @@ Following options should be specified within :code:`"json-dump"` handystats' con
 Read :ref:`json-dump` documentation for the backgroud of the following options.
 
 **interval**
-    Specifies time interval for generating JSON dump of all collected statistics.
+    Specifies time interval in *milliseconds* for generating JSON dump of all collected statistics.
 
     Zero value disables JSON dump generation.
 
@@ -137,7 +137,7 @@ Following options should be specified within :code:`"metrics-dump"` handystats' 
 Read :ref:`metrics-dump` documentation for the backgroud of the following options.
 
 **interval**
-    Specifies time interval for generating metrics dump of all collected statistics.
+    Specifies time interval in *milliseconds* for generating metrics dump of all collected statistics.
 
     Zero value disables metrics dump generation.
 
@@ -161,7 +161,7 @@ Following options should be specified within :code:`"message-queue"` handystats'
 Read :ref:`message-queue` documentation for the backgroud of the following options.
 
 **sleep-on-empty**
-    Specifies sequence of time interval for which handystats core's processing thread will sleep
+    Specifies sequence of time interval in *microseconds* for which handystats core's processing thread will sleep
     if no event messages are passed to the handystats core.
 
     *Default*: :code:`[1, 5, 10, 50, 100, 500, 1000, 5000, 10000]`
