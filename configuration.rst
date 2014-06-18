@@ -44,37 +44,23 @@ Following options should be specified within :code:`"incremental-statistics"` ha
 
 Read :ref:`incremental-statistics` documentation for the backgroud of the following options.
 
-.. list-table:: 
-    :widths: 25 50 15 10
-    :header-rows: 1
+**moving-average-alpha**
+    :Description:
+        Indirectly specifies data window length for moving average statistics.
 
-    * - Option name
+        If you want *moving average* statistic to handle approximately last :math:`N` values
+        recommended choices would be :math:`\frac{1}{N}` and :math:`\frac{2}{N + 1}`.
 
-      - Description
+    :Default:
+        0.125
 
-      - Type, dimension
-
-      - Default value
-
-    * - moving-average-alpha
-
-      - Indirectly specifies data window length for moving average statistics.
-
-        If you want *moving average* statistics to handle approximately last :math:`N` values
-        the best choices for :math:`\alpha` would be :math:`\frac{1}{N}` and :math:`\frac{2}{N + 1}`.
-
-      - double, dimensionless
-
-      - 0.125
-
-    * - moving-interval
-
-      - Specifies moving time widow length over which interval count, sum and mean
+**moving-interval**
+    :Description:
+        Specifies moving time widow length over which interval count, sum and mean
         statistics are calculated.
 
-      - integer, milliseconds
-
-      - 1000
+    :Default:
+        1000
 
 Timer Metric Configuration
 --------------------------
@@ -83,28 +69,15 @@ Following options should be specified within :code:`"timer"` handystats' configu
 
 Read :ref:`timer-metric` documentation for the backgroud of the following options.
 
-.. list-table:: 
-    :widths: 25 50 15 10
-    :header-rows: 1
-
-    * - Option name
-
-      - Description
-
-      - Type, dimension
-
-      - Default value
-
-    * - idle-timeout
-
-      - Specifies time interval for which timer's instance is considered to be alive.
+**idle-timeout**
+    :Description:
+        Specifies time interval for which timer's instance is considered to be alive.
 
         If no events for timer's instance have been recieved during this time interval
         timer's instance will be removed with no impact on collected statistics.
 
-      - integer, milliseconds
-
-      - 10000
+    :Default:
+        10000
 
 JSON Dump Configuration
 -----------------------
@@ -113,27 +86,14 @@ Following options should be specified within :code:`"json-dump"` handystats' con
 
 Read :ref:`json-dump` documentation for the backgroud of the following options.
 
-.. list-table:: 
-    :widths: 25 50 15 10
-    :header-rows: 1
-
-    * - Option name
-
-      - Description
-
-      - Type, dimension
-
-      - Default value
-
-    * - interval
-
-      - Specifies time interval for generating JSON dump of all collected statistics.
+**interval**
+    :Description:
+        Specifies time interval for generating JSON dump of all collected statistics.
 
         Zero value disables JSON dump generation.
 
-      - integer, milliseconds
-
-      - 500
+    :Default:
+        500
 
 Metrics Dump Configuration
 --------------------------
@@ -142,27 +102,14 @@ Following options should be specified within :code:`"metrics-dump"` handystats' 
 
 Read :ref:`metrics-dump` documentation for the backgroud of the following options.
 
-.. list-table:: 
-    :widths: 25 50 15 10
-    :header-rows: 1
-
-    * - Option name
-
-      - Description
-
-      - Type, dimension
-
-      - Default value
-
-    * - interval
-
-      - Specifies time interval for generating metrics dump of all collected statistics.
+**interval**
+    :Description:
+        Specifies time interval for generating metrics dump of all collected statistics.
 
         Zero value disables metrics dump generation.
 
-      - integer, milliseconds
-
-      - 500
+    :Default:
+        500
 
 Message Queue Configuration
 ---------------------------
@@ -171,24 +118,11 @@ Following options should be specified within :code:`"message-queue"` handystats'
 
 Read :ref:`message-queue` documentation for the backgroud of the following options.
 
-.. list-table:: 
-    :widths: 25 50 15 10
-    :header-rows: 1
-
-    * - Option name
-
-      - Description
-
-      - Type, dimension
-
-      - Default value
-
-    * - sleep-on-empty
-
-      - Specifies sequence of time interval for which handystats core's processing thread will sleep
+**sleep-on-empty**
+    :Description:
+        Specifies sequence of time interval for which handystats core's processing thread will sleep
         if no event messages are passed to the handystats core.
 
-      - vector, microseconds
-
-      - Here pretty long vector goes.
+    :Default:
+        :code:`[1, 5, 10, 50, 100, 500, 1000, 5000, 10000]`
 
