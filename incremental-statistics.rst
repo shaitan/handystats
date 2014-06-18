@@ -108,3 +108,8 @@ Here is the full list of incremental statistics that are supported by handystats
 - interval sum
 - interval mean
 
+Incremental Statistics Implementation
+-------------------------------------
+
+We base our incremental statistics implementation on `Boost.Accumulators <http://www.boost.org/doc/libs/1_46_0/doc/html/accumulators.html>`_
+with additional moving average and interval statistics.
