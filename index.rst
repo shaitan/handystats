@@ -16,6 +16,7 @@ Contents:
    :maxdepth: 2
 
    about
+   architecture
    incremental-statistics
    configuration
 
