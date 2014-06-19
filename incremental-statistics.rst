@@ -3,13 +3,14 @@
 Incremental Statistics
 ======================
 
-*Incremental statistics* is the base of handystats library data aggregation mechanism.
+*Incremental statistics* is the base of handystats metrics' data aggregation mechanism.
 Thus understanding this type of statistics, its pros and cons is crucial.
 
 Definition
 ----------
 
 **Incremental statistics** are such statistics over dataset of pairs ``(value, timestamp)`` that can be maintained and updated on each new data with constant time and space complexity.
+
 Examples of incremental statistics are:
 
 * min
