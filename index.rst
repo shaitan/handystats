@@ -6,6 +6,10 @@
 Welcome to Handystats' documentation!
 ======================================
 
+Handystats is C++ library for collecting **user-defined in-process runtime statistics**.
+
+Handystats allows users to monitor their **multithreaded applications** in a **production environment** with **low overhead**.
+
 .. caution::
     Handystats library is in **"beta" phase**.
     Everything may be changed!
@@ -20,13 +24,4 @@ Contents:
    incremental-statistics
    metrics
    configuration
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
