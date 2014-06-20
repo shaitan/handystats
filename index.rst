@@ -18,6 +18,7 @@ Contents:
    about
    architecture
    incremental-statistics
+   metrics
    configuration
 
 
