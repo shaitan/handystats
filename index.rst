@@ -24,4 +24,5 @@ Contents:
    incremental-statistics
    metrics
    configuration
+   time-measurement
 
