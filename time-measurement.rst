@@ -111,7 +111,7 @@ POSIX defines CLOCK_REALTIME and CLOCK_MONOTONIC types of clock, but it requires
 Therefore, while Linux provides all of these clocks, on other systems analogous to CLOCK_MONOTONIC or CLOCK_MONOTONIC_RAW clocks should be used
 or, in case of absence of those, CLOCK_REALTIME.
 
-Considering issues and complexity of using hardware clock sources specified above as well as for code portability using POSIX clocks is preferred.
+Considering issues and complexity of using hardware clock sources specified above as well as for code portability using POSIX clocks is preferred for most systems.
 
 POSIX provides the :code:`clock_gettime()` interface for obtaining the time of a specific clock.
 More useful is that the function allows for nanosecond precision returning result in :code:`timespec` structure.
@@ -130,8 +130,78 @@ The same way, the time from CLOCK_MONOTONIC and analogous cannot be mapped to th
 
 This shows two conceptual different time-based problems that should be solved by performance monitoring systems:
 
-- measuring time intervals
-- timestamping events
+- **measuring time intervals**
+
+  For solving this problem any high-precision monotonic clock could be used, even hardware clock source.
+  The only restriction is an ability to accurately convert time interval's duration from clock's units to more convinient units, such as nanoseconds.
+
+- **timestamping events**
+
+  This problem raises only when user wants to work with event timestamps.
+  Inside the system any suitable clock can be used, but for the "*outside world*" timestamp should be in consensual form,
+  such as `Unix time <http://en.wikipedia.org/wiki/Unix_time>`_.
 
 Clock Concept
 -------------
+
+To hide implementation details and underlying clock type from users and other parts of the handystats library **Clock concept**
+similar to `C++ Clock concept <http://en.cppreference.com/w/cpp/concept/Clock>`_ has been introduced:
+
+- Type names:
+
+  - :code:`time_point` -- represents time point from clock's epoch
+
+  - :code:`duration` -- represents duration between time points
+
+- Member functions:
+
+  - :code:`static time_point now() noexcept` -- returns current time point
+
+  - :code:`static std::chrono::system_clock::time_point to_system_time(const time_point&) noexcept`
+    -- converts :code:`time_point` to system-wide clock's time represented by :code:`std::chrono::system_clock`
+
+    This function should perform conversion from :code:`time_point` which may represent hardware clock source value, such as TSC,
+    and have no connection to system-wide clock.
+    Still, as the handystats library uses clock concept's :code:`time_point` for both measuring time intervals and timestamping events
+    conversion is needed for users to work with events timestamps at runtime.
+
+Note that :code:`time_point` and :code:`duration` types can have no connection to :code:`std::chrono`,
+but there should be :code:`std::chrono::duration_cast` specialization for the :code:`duration` type.
+
+Implementation Details
+----------------------
+
+The handystats library implements library-wide clock using the Time Stamp Counter register as the most precise and fast hardware clock source.
+To read the value from the TSC :code:`RDTSCP` serializing instruction is used.
+
+Considering specified above caveats on using the TSC we're aimed on processor architectures and operation systems that support **constant TSC**
+and **RDTSCP** serializing instruction.
+
+The Time Stamp Counter Rate
++++++++++++++++++++++++++++
+
+For measuring time intervals calibration between the number of cycles and time units, specifically nanoseconds, should be performed.
+Thus, **the TSC's rate** should be determined.
+
+The TSC's rate is determined by multiple interval measurements by TSC and CLOCK_MONOTONIC simultaneously
+and choosing median frequency between measurements.
+To find corresponding pair of TSC and CLOCK_MONOTONIC values at start and end of interval measurement
+CLOCK_MONOTONIC time retrieval is surrounded by RDTSCP calls.
+And pair of CLOCK_MONOTONIC time and average of TSC values is formed only if the difference between TSC values is acceptable.
+Otherwise, determination of corresponding pair of TSC and CLOCK_MONOTONIC values is repeated.
+
+The TSC's rate determination should be performed at startup.
+To this purpose we mark the TSC initializing function with :code:`__attribute__((constructor))` to be invoked at load-time.
+
+Note, that :code:`__attribute__((constructor))` is GCC-specific semantics, thereby we limit the set of supported compilers to GCC and Clang.
+See :ref:`requirements` for more details.
+
+Cycles Count To System Time Conversion
+++++++++++++++++++++++++++++++++++++++
+
+To convert the number of cycles that counts from some unspecified point in time to absolute system time
+correlation between system time (represented by C++11's :code:`std::chrono::system_clock` or POSIX's :code:`CLOCK_REALTIME`)
+and the number of cycles should be known.
+
+At this point there should be pair of timestamp in terms of the of cycles and timestamp of system clock that correspond to the same point in time.
+Moreover, considering possible system time updates and adjustments the correlated pair of internal and system time should be updated periodically.
