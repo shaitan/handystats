@@ -157,16 +157,35 @@ similar to `C++ Clock concept <http://en.cppreference.com/w/cpp/concept/Clock>`_
 
   - :code:`static time_point now() noexcept` -- returns current time point
 
-  - :code:`static std::chrono::system_clock::time_point to_system_time(const time_point&) noexcept`
-    -- converts :code:`time_point` to system-wide clock's time represented by :code:`std::chrono::system_clock`
+- Non-member functions:
 
-    This function should perform conversion from :code:`time_point` which may represent hardware clock source value, such as TSC,
+  - :code:`std::chrono::system_clock::time_point to_system_time(const clock::time_point&)`
+    -- converts :code:`clock::time_point` to system-wide clock's time represented by :code:`std::chrono::system_clock::time_point`
+
+    This function should perform conversion from :code:`clock::time_point` which may represent hardware clock source value, such as TSC,
     and have no connection to system-wide clock.
     Still, as the handystats library uses clock concept's :code:`time_point` for both measuring time intervals and timestamping events
     conversion is needed for users to work with events timestamps at runtime.
 
+  - :code:`duration_cast` from and to :code:`clock::duration`
+    -- performs conversion between :code:`clock::duration` and :code:`std::chrono::duration`
+
+    This function should perform conversion between :code:`clock::duration` and :code:`std::chrono::duration`.
+    The former may represent intervals in terms of hardware clock's ticks and have no explicit connection to convenient time units,
+    while the latter represents time intervals in terms of convenient time units, such as :code:`std::chrono::milliseconds`.
+
 Note that :code:`time_point` and :code:`duration` types can have no connection to :code:`std::chrono`,
-but there should be :code:`std::chrono::duration_cast` specialization for the :code:`duration` type.
+but this types try to follow corresponding :code:`std::chrono` public interfaces.
+
+The handystats library provides the following :code:`typedef` that represents library-wide clock:
+
+.. code-block:: cpp
+
+    namespace handystats { namespace chrono {
+
+    typedef <clock concept implementation> clock;
+
+    }}
 
 Implementation Details
 ----------------------
@@ -203,5 +222,31 @@ To convert the number of cycles that counts from some unspecified point in time 
 correlation between system time (represented by C++11's :code:`std::chrono::system_clock` or POSIX's :code:`CLOCK_REALTIME`)
 and the number of cycles should be known.
 
-At this point there should be pair of timestamp in terms of the of cycles and timestamp of system clock that correspond to the same point in time.
-Moreover, considering possible system time updates and adjustments the correlated pair of internal and system time should be updated periodically.
+At this point there should be a "*tied*"pair of timestamp in terms of the of cycles and timestamp of system clock that correspond to the same point in time.
+Moreover, considering possible system time updates and adjustments the tied pair of internal and system time should be updated periodically.
+
+Such conversion is performed by :code:`handystats::chrono::to_system_time` function described above.
+Considering our focus on multithreaded applications there's no limit on the number of concurrent calls to the function,
+thus updates of the tied pair of internal and system time and calls to the :code:`handystats::chrono::to_system_time` should be **thread-safe**.
+
+To ease implementation of the update of the tied pair, let's do some math:
+
+- let :math:`R` be the rate of the TSC,
+- let :math:`T_{tsc}, T_{sys}` be the tied pair of internal :math:`T_{tsc}` and system :math:`T_{sys}` time,
+- let :math:`t_{tsc}` be current internal time and we want to find current system :math:`t_{sys}`.
+
+The following formula is the solution:
+
+.. math::
+
+    t_{sys} = T_{sys} + \frac{t_{tsc} - T_{tsc}}{R}
+
+This formula can be transformed to
+
+.. math::
+
+    t_{sys} = \frac{t_{tsc}}{R} + (T_{sys} - \frac{T_{tsc}}{R})
+
+The last term in brackets is an **offset** that fully replaces the tied pair.
+Thus, the only we need is to update single value instead of pair.
+And such update of the offset can be performed in a **lock-free** manner.
