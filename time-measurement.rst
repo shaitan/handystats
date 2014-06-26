@@ -248,5 +248,5 @@ This formula can be transformed to
     t_{sys} = \frac{t_{tsc}}{R} + (T_{sys} - \frac{T_{tsc}}{R})
 
 The last term in brackets is an **offset** that fully replaces the tied pair.
-Thus, the only we need is to update single value instead of pair.
+Thus, the only we need to update is single value instead of a pair.
 And such update of the offset can be performed in a **lock-free** manner.
