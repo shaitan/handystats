@@ -48,7 +48,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Handystats'
-copyright = '2014 Yandex LLC. All rights reserved'
+copyright = '2013-2015 Yandex LLC. All rights reserved'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
